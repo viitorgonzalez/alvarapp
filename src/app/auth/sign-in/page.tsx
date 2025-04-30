@@ -17,7 +17,6 @@ export default function Login() {
 
     try {
       const success = await handleLogin(email, password)
-      setLoading(false)
   
       if (success) {
         setMessage({ text: 'Login realizado com sucesso!', type: 'success' })
