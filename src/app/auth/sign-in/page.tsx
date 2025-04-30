@@ -1,31 +1,54 @@
 'use client'
 
-import { useState } from 'react'
-import { Eye, EyeOff } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { handleLogin } from '../auth'
 import { useRouter } from 'next/navigation'
-import { auth } from '../auth'
 
 export default function Login() {
-  const [showPassword, setShowPassword] = useState(false)
-  const [ email, setEmail ] = useState('')
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-
+  const [loading, setLoading] = useState(false)
+  const [message, setMessage] = useState<null | { text: string, type: 'success' | 'error' }>(null)
   const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setLoading(true)
 
-    const success = await auth({ email, password })
+
+    const success = await handleLogin(email, password)
+    setLoading(false)
 
     if (success) {
+      setMessage({ text: 'Login realizado com sucesso!', type: 'success' })
       router.push('/dashboard')
     } else {
-      alert('Email ou senha inválidos.')
+      setMessage({ text: 'Email ou senha inválidos.', type: 'error' })
     }
   }
 
+  useEffect(() => {
+    if (message) {
+      const timer = setTimeout(() => setMessage(null), 3000)
+      return () => clearTimeout(timer)
+    }
+  }, [message])
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-200">
+    <div className="min-h-screen flex items-center justify-center bg-gray-200 relative">
+      {message && (
+        <div
+          className={`absolute top-6 px-6 py-3 rounded-xl shadow-lg text-white flex items-center justify-between gap-4 transition-all duration-300 ${
+            message.type === 'success' ? 'bg-green-500' : 'bg-red-500'
+          }`}
+        >
+          <span>{message.text}</span>
+          <button onClick={() => setMessage(null)} className="font-bold text-white">
+            ×
+          </button>
+        </div>
+      )}
+
       <div className="bg-white p-8 rounded-2xl shadow-md w-full max-w-sm border border-gray-300">
         <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Login</h2>
         <form onSubmit={handleSubmit} className="space-y-5">
@@ -49,7 +72,7 @@ export default function Login() {
             </label>
             <div className="relative">
               <input
-                type={showPassword ? 'text' : 'password'}
+                type="password"
                 id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -57,20 +80,14 @@ export default function Login() {
                 placeholder="••••••••"
                 required
               />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-600 hover:text-gray-800"
-              >
-                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-              </button>
             </div>
           </div>
           <button
             type="submit"
             className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
+            disabled={loading}
           >
-            Entrar
+            {loading ? 'Carregando...' : 'Entrar'}
           </button>
         </form>
       </div>

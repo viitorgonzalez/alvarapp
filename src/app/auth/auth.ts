@@ -1,28 +1,21 @@
 import { supabase } from "../../../supabase/config"
 
-interface AuthProps {
-    email: string
-    password: string
-}
-
-export const auth = async ({ email, password }: AuthProps): Promise<boolean> => {
+export const handleLogin = async (email: string, password: string) => {
     try {
-        if (!email.trim() || !password.trim()) {
-            return false
-        }
-
-        const { data: dataUser, error } = await supabase.auth.signInWithPassword({
+        const { data, error } = await supabase.auth.signInWithPassword({
             email,
-            password
-        })
+            password,
+        });
 
-        if (error || !dataUser.user) {
+        if (error) {
+            console.error('Erro de login:', error)
             return false
         }
 
+        console.log('Login bem-sucedido:', data.user)
         return true
-    } catch (error) {
-        console.error('Erro ao autenticar: ', error)
+    } catch (err) {
+        console.error('Erro ao tentar autenticar:', err)
         return false
     }
 }
