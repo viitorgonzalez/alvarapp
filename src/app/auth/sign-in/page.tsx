@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { handleLogin } from '../auth'
+import { handleSignIn } from '../auth'
 import { useRouter } from 'next/navigation'
 
 export default function Login() {
@@ -15,17 +15,11 @@ export default function Login() {
     e.preventDefault()
     setLoading(true)
 
-    try {
-      const success = await handleLogin(email, password)
-  
-      if (success) {
-        setMessage({ text: 'Login realizado com sucesso!', type: 'success' })
-        router.push('/dashboard')
-      }
-    } catch (error) {
-      console.error("an error occurred: ", error)
-    } finally {
-      setLoading(false)
+    const result = await handleSignIn(email, password)
+
+    if (result.success) {
+      setMessage({ text: 'Login realizado com sucesso!', type: 'success' })
+      router.push('/dashboard')
     }
   }
 
@@ -40,9 +34,8 @@ export default function Login() {
     <div className="min-h-screen flex items-center justify-center bg-gray-200 relative">
       {message && (
         <div
-          className={`absolute top-6 px-6 py-3 rounded-xl shadow-lg text-white flex items-center justify-between gap-4 transition-all duration-300 ${
-            message.type === 'success' ? 'bg-green-500' : 'bg-red-500'
-          }`}
+          className={`absolute top-6 px-6 py-3 rounded-xl shadow-lg text-white flex items-center justify-between gap-4 transition-all duration-300 ${message.type === 'success' ? 'bg-green-500' : 'bg-red-500'
+            }`}
         >
           <span>{message.text}</span>
           <button onClick={() => setMessage(null)} className="font-bold text-white">
