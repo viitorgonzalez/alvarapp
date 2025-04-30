@@ -9,11 +9,12 @@ export const handleLogin = async (email: string, password: string) => {
 
         if (error) {
             console.error('Erro de login:', error)
-            return false
+            console.log(data)
+            return { success: false, error: error.message }
         }
 
         console.log('Login bem-sucedido:', data.user)
-        return true
+        return { success: true, data}
     } catch (err) {
         console.error('Erro ao tentar autenticar:', err)
         return false

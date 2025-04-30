@@ -15,15 +15,18 @@ export default function Login() {
     e.preventDefault()
     setLoading(true)
 
-
-    const success = await handleLogin(email, password)
-    setLoading(false)
-
-    if (success) {
-      setMessage({ text: 'Login realizado com sucesso!', type: 'success' })
-      router.push('/dashboard')
-    } else {
-      setMessage({ text: 'Email ou senha inválidos.', type: 'error' })
+    try {
+      const success = await handleLogin(email, password)
+      setLoading(false)
+  
+      if (success) {
+        setMessage({ text: 'Login realizado com sucesso!', type: 'success' })
+        router.push('/dashboard')
+      }
+    } catch (error) {
+      console.error("an error occurred: ", error)
+    } finally {
+      setLoading(false)
     }
   }
 
