@@ -19,6 +19,7 @@ export default function Login() {
 
     if (result.success) {
       setMessage({ text: 'Login realizado com sucesso!', type: 'success' })
+      setLoading(false)
       router.push('/dashboard')
     }
   }
