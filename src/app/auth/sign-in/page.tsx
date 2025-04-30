@@ -21,12 +21,15 @@ export default function Login() {
       setMessage({ text: 'Login realizado com sucesso!', type: 'success' })
       setLoading(false)
       router.push('/dashboard')
+    } else {
+      setMessage({ text: 'Login Falhou!', type: 'error' })
+      setLoading(false)
     }
   }
 
   useEffect(() => {
     if (message) {
-      const timer = setTimeout(() => setMessage(null), 3000)
+      const timer = setTimeout(() => setMessage(null), 9000)
       return () => clearTimeout(timer)
     }
   }, [message])
