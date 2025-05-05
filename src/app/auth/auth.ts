@@ -19,7 +19,7 @@ export const handleSignIn = async (email: string, password: string) => {
     }
 }
 
-export const handleSignUp = async (username: string, email: string, password: string, confirmPassword: string) => {
+export const handleSignUp = async (email: string, password: string, confirmPassword: string) => {
     try {
         if (password !== confirmPassword) {
             console.error("Senhas diferentes")
@@ -41,4 +41,12 @@ export const handleSignUp = async (username: string, email: string, password: st
         console.error('Erro ao tentar cadastrar:', err)
         return false
     }
+}
+
+export const signOut = async () => {
+  try {
+    await supabase.auth.signOut()
+  } catch (error) {
+    console.error('Erro ao sair:', error)
+  }
 }

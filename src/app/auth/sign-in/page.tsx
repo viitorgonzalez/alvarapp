@@ -3,10 +3,12 @@
 import { useState, useEffect } from 'react'
 import { handleSignIn } from '../auth'
 import { useRouter } from 'next/navigation'
+import { FiEye, FiEyeOff } from 'react-icons/fi'
 
 export default function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState<null | { text: string, type: 'success' | 'error' }>(null)
   const router = useRouter()
@@ -34,7 +36,6 @@ export default function Login() {
     }
   }, [message])
 
-  
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-200 relative">
       {message && (
@@ -72,7 +73,7 @@ export default function Login() {
             </label>
             <div className="relative">
               <input
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -80,6 +81,13 @@ export default function Login() {
                 placeholder="••••••••"
                 required
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+              >
+                {showPassword ? <FiEyeOff size={20} /> : <FiEye size={20} />}
+              </button>
             </div>
           </div>
           <button
@@ -90,6 +98,16 @@ export default function Login() {
             {loading ? 'Carregando...' : 'Entrar'}
           </button>
         </form>
+
+        <p className="mt-6 text-center text-sm text-gray-600">
+          Não tem uma conta?{' '}
+          <button
+            className="text-blue-600 hover:underline font-medium"
+            onClick={() => router.push('/auth/sign-up')}
+          >
+            Criar conta
+          </button>
+        </p>
       </div>
     </div>
   )
