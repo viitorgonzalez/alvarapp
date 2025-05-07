@@ -53,6 +53,26 @@ export default function SignUp() {
               </button>
             </div>
           </div>
+          <div>
+            <label htmlFor="confirm-password" className="block text-sm font-semibold text-gray-800">
+              Confirmar senha
+            </label>
+            <div className="relative">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                id="confirm-password"
+                className="mt-1 block w-full px-4 py-2 pr-10 border border-gray-400 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-800"
+                placeholder="Confirmar senha"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-600 hover:text-gray-800"
+              >
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              </button>
+            </div>
+          </div>
           <button
             type="submit"
             className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
