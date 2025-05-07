@@ -1,49 +1,69 @@
 import { supabase } from "../../../supabase/config"
 
-export const handleSignIn = async (email: string, password: string) => {
-    try {
-        const { data, error } = await supabase.auth.signInWithPassword({
-            email,
-            password,
-        })
-
-        if (error) {
-            console.error('Erro de login:', error)
-            return { success: false, error: error.message }
-          }
-
-        return { success: true, data }
-    } catch (err) {
-        console.error('Erro ao tentar logar:', err)
-        return { success: false, error: 'Erro inesperado no login' }
-    }
+type AuthResponse = {
+  success: boolean
+  data?: unknown
+  message?: string
 }
 
-export const handleSignUp = async (email: string, password: string, confirmPassword: string) => {
-    try {
-        if (password !== confirmPassword) {
-            console.error("Senhas diferentes")
-            return false
-        }
+export const handleSignIn = async (
+  email: string,
+  password: string
+): Promise<AuthResponse> => {
+  try {
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password })
 
-        const { data, error } = await supabase.auth.signUp({
-            email: email,
-            password: password,
-        })
-
-        if (error) {
-            console.error('Erro:', error)
-            return false
-        }
-
-        return { success: true, data }
-    } catch (err) {
-        console.error('Erro ao tentar cadastrar:', err)
-        return false
+    if (error) {
+      console.error('Erro de login:', error)
+      return { success: false, message: error.message }
     }
+
+    return { success: true, data }
+  } catch (err) {
+    console.error('Erro inesperado no login:', err)
+    return { success: false, message: 'Erro inesperado no login' }
+  }
 }
 
-export const signOut = async () => {
+export const handleSignUp = async ({
+  name,
+  email,
+  password,
+  confirmPassword
+}: {
+  name: string
+  email: string
+  password: string
+  confirmPassword: string
+}): Promise<AuthResponse> => {
+  if (password !== confirmPassword) {
+    console.warn("Senhas não coincidem")
+    return { success: false, message: 'Senhas não coincidem' }
+  }
+
+  try {
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: { display_name: name },
+        emailRedirectTo: `${window.location.origin}/confirm`
+      }
+    })
+
+    if (error) {
+      console.error('Erro no cadastro:', error)
+      return { success: false, message: error.message }
+    }
+
+    return { success: true, data }
+  } catch (err) {
+    console.error('Erro inesperado no cadastro:', err)
+    return { success: false, message: 'Erro inesperado no cadastro' }
+  }
+}
+
+export const signOut = async (): Promise<void> => {
   try {
     await supabase.auth.signOut()
   } catch (error) {

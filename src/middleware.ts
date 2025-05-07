@@ -30,6 +30,6 @@ export async function middleware(req: NextRequest) {
 // ignore roots with "api, _next/static, _next/image or favicon.ico"
 export const config = {
     matcher: [
-        '/((?!api|_next/static|_next/image|favicon.ico).*)',
+        '/((?!api|_next/static|_next/image|favicon.ico|verify-email).*)',
     ]
 }
