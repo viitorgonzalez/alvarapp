@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { handleSignIn } from '../auth'
+import { handleSignIn } from '../../../utils/auth'
 import { useRouter } from 'next/navigation'
 import { FiEye, FiEyeOff } from 'react-icons/fi'
 
