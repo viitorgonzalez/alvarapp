@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter } from "next/navigation"
-import { signOut } from "../auth/auth"
+import { signOut } from "../../utils/auth"
 
 export default function Dashboard() {
     const router = useRouter()

@@ -1,5 +1,5 @@
-import { handleSignUp } from '@/app/auth/auth'
 import { useRouter } from 'next/navigation'
+import { handleSignUp } from './auth'
 
 export const handleSignUpSubmit = async (
   e: React.FormEvent,
@@ -18,10 +18,17 @@ export const handleSignUpSubmit = async (
   const newFieldErrors: { [key: string]: string } = {}
 
   if (!name) newFieldErrors.name = 'Nome é obrigatório.'
-  if (!email) newFieldErrors.email = 'Email é obrigatório.'
   if (!password) newFieldErrors.password = 'Senha é obrigatória.'
   if (!confirmPassword) newFieldErrors['confirm-password'] = 'Confirmação de senha é obrigatória.'
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  if (!email) { newFieldErrors.email = 'Email é obrigatório.' 
+  } else if (!emailRegex.test(email)) {
+    newFieldErrors.email = 'Digite um email válido.';
+  }
+
   if (password && password.length < 6) newFieldErrors.password = 'A senha deve ter pelo menos 6 caracteres.'
+
   if (password && confirmPassword && password !== confirmPassword) {
     newFieldErrors['confirm-password'] = 'As senhas não coincidem.'
   }

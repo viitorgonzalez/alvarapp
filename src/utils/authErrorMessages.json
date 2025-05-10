@@ -1,0 +1,18 @@
+[
+  { "code": "Email already exists", "message": "Este email já está cadastrado." },
+  { "code": "User already registered", "message": "Este email já está cadastrado." },
+  { "code": "Invalid login credentials", "message": "Email ou senha inválidos." },
+  { "code": "Invalid email or password", "message": "Email ou senha inválidos." },
+  { "code": "User not found", "message": "Usuário não encontrado." },
+  { "code": "Email not confirmed", "message": "Confirme seu email antes de fazer login." },
+  { "code": "Password should be at least 6 characters", "message": "A senha deve ter pelo menos 6 caracteres." },
+  { "code": "Signup requires a valid email address", "message": "Digite um email válido." },
+  { "code": "Email is not valid", "message": "Digite um email válido." },
+  { "code": "Missing email or password", "message": "Preencha todos os campos." },
+  { "code": "Unable to validate credentials", "message": "Email ou senha inválidos." },
+  { "code": "Signups not allowed for this instance", "message": "Cadastro indisponível no momento." },
+  { "code": "Token has expired or is invalid", "message": "O link expirou ou é inválido." },
+  { "code": "email_address_invalid", "message": "Digite um email válido." },
+  { "code": "user_already_registered", "message": "Este email já está cadastrado." },
+  { "code": "auth/email-already-in-use", "message": "Este email já está cadastrado." }
+]

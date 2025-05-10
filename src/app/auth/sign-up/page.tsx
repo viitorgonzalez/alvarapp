@@ -107,6 +107,7 @@ export default function SignUp() {
           ) : (
             <div className="text-center">
               <p className="text-sm text-gray-800">Você escolheu se cadastrar com Google.</p>
+              <p className="text-sm text-red-800 p-6">Não implementado.</p>
               <button
                 type="button"
                 onClick={() => alert('Cadastro com Google ainda não implementado')}
